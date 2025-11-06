@@ -1,30 +1,44 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
-const dateRangeOptions = ['За последние 7 дней', 'За последние 28 дней', 'За последние 3 месяца']
-const selectedRange = ref(dateRangeOptions[1])
+const dateRangeOptions = [
+  { label: 'Oxirgi 7 kun', value: 'last-7' },
+  { label: 'Oxirgi 28 kun', value: 'last-28' },
+  { label: 'Oxirgi 3 oy', value: 'last-90' }
+]
+const selectedRange = ref(dateRangeOptions[1].value)
 
-const environments = ['osonkassa.uz', 'sandbox.osonkassa.uz']
-const selectedEnv = ref(environments[0])
+const environments = [
+  { label: 'Osonkassa', value: 'osonkassa' },
+  { label: 'Osonkassa Sandbox', value: 'sandbox' }
+]
+const selectedEnv = ref(environments[0].value)
+
+const selectedRangeLabel = computed(() => dateRangeOptions.find((option) => option.value === selectedRange.value)?.label ?? '')
+const selectedEnvLabel = computed(() => environments.find((option) => option.value === selectedEnv.value)?.label ?? '')
 </script>
 
 <template>
   <header class="topbar">
     <div class="topbar__left">
-      <div class="topbar__title">Statistika</div>
-      <p class="topbar__description">so'nggi qarashlar va asosiy ko'rsatkichlar</p>
+      <div class="topbar__title">Statistika paneli</div>
+      <p class="topbar__description">API gateway faoliyati bo‘yicha asosiy ko‘rsatkichlar</p>
+      <div class="topbar__meta">
+        <span class="topbar__chip">{{ selectedEnvLabel }}</span>
+        <span class="topbar__chip topbar__chip--outline">{{ selectedRangeLabel }}</span>
+      </div>
     </div>
     <div class="topbar__controls">
       <label class="topbar__field">
-        <span class="topbar__label">Sayt</span>
+        <span class="topbar__label">Hisob</span>
         <select v-model="selectedEnv" class="topbar__select">
-          <option v-for="env in environments" :key="env" :value="env">{{ env }}</option>
+          <option v-for="env in environments" :key="env.value" :value="env.value">{{ env.label }}</option>
         </select>
       </label>
       <label class="topbar__field">
         <span class="topbar__label">Davr</span>
         <select v-model="selectedRange" class="topbar__select">
-          <option v-for="range in dateRangeOptions" :key="range" :value="range">{{ range }}</option>
+          <option v-for="range in dateRangeOptions" :key="range.value" :value="range.value">{{ range.label }}</option>
         </select>
       </label>
       <button class="topbar__action" type="button">Eksport</button>
@@ -58,7 +72,33 @@ const selectedEnv = ref(environments[0])
   font-size: 13px;
   color: #5f6368;
   margin: 0;
-  text-transform: lowercase;
+}
+
+.topbar__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.topbar__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #1a73e8;
+  border-radius: 9999px;
+  background: rgba(26, 115, 232, 0.12);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.topbar__chip--outline {
+  background: transparent;
+  color: #5f6368;
+  border: 1px solid #dadce0;
 }
 
 .topbar__controls {
