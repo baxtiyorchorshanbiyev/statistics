@@ -151,7 +151,9 @@ const selectedMetricId = ref<MetricTab['id']>('requests')
 
 const hasTraffic = computed(() => statCards.value.some((card) => card.value > 0))
 
-const selectedMetric = computed(() => metricTabs.value.find((tab) => tab.id === selectedMetricId.value) ?? metricTabs.value[0])
+const selectedMetric = computed(
+  () => metricTabs.value.find((tab) => tab.id === selectedMetricId.value) ?? metricTabs.value[0]!
+)
 const selectedSeries = computed(() => metricSeries[selectedMetricId.value] ?? [])
 const selectedTrend = computed(() => metricTrends[selectedMetricId.value] ?? 0)
 const selectedCurrentValue = computed(() => selectedSeries.value[selectedSeries.value.length - 1] ?? 0)
@@ -453,19 +455,22 @@ function formatLatency(value: number) {
   flex-direction: column;
   gap: 24px;
   padding: 24px 32px 48px;
-  background: #f8f9fa;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
   min-height: calc(100vh - 64px);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .statistics__banner {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: #e8f0fe;
+  background: rgba(26, 115, 232, 0.12);
+  border: 1px solid rgba(26, 115, 232, 0.2);
   border-radius: 12px;
   padding: 16px 20px;
   font-size: 14px;
-  color: #174ea6;
+  color: var(--color-primary);
   line-height: 1.5;
 }
 
@@ -477,13 +482,13 @@ function formatLatency(value: number) {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  background: #1a73e8;
+  background: var(--color-primary);
   color: #fff;
   border-radius: 999px;
 }
 
 .statistics__banner a {
-  color: #174ea6;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
@@ -494,13 +499,15 @@ function formatLatency(value: number) {
 }
 
 .statistics__card {
-  background: #fff;
+  background: var(--color-bg-surface);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.12);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(32, 33, 36, 0.06);
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .statistics__card-top {
@@ -512,7 +519,7 @@ function formatLatency(value: number) {
 .statistics__card-title {
   font-size: 14px;
   font-weight: 600;
-  color: #3c4043;
+  color: var(--color-text-secondary);
 }
 
 .statistics__card-main {
@@ -524,7 +531,7 @@ function formatLatency(value: number) {
 .statistics__card-value {
   font-size: 32px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .statistics__trend {
@@ -532,7 +539,7 @@ function formatLatency(value: number) {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__trend-indicator {
@@ -550,24 +557,26 @@ function formatLatency(value: number) {
 }
 
 .statistics__trend--neutral .statistics__trend-indicator {
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__card-description {
   margin: 0;
   font-size: 13px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
 .statistics__panel {
-  background: #fff;
+  background: var(--color-bg-surface);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.12);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(32, 33, 36, 0.06);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .statistics__panel--wide {
@@ -586,13 +595,13 @@ function formatLatency(value: number) {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .statistics__panel-header p {
   margin: 6px 0 0;
   font-size: 13px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__panel-header--compact {
@@ -614,7 +623,7 @@ function formatLatency(value: number) {
 
 .statistics__panel-caption {
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__panel-trend {
@@ -624,14 +633,14 @@ function formatLatency(value: number) {
 
 .statistics__panel-sub {
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__tablist {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #f1f3f4;
+  background: var(--color-bg-page);
   border-radius: 9999px;
   padding: 4px;
   width: fit-content;
@@ -644,7 +653,7 @@ function formatLatency(value: number) {
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   border: none;
   background: transparent;
   border-radius: 9999px;
@@ -657,9 +666,9 @@ function formatLatency(value: number) {
 }
 
 .statistics__tab-button--active {
-  background: #fff;
-  color: var(--tab-color, #1a73e8);
-  box-shadow: 0 1px 4px rgba(32, 33, 36, 0.18);
+  background: var(--color-bg-surface);
+  color: var(--tab-color, var(--color-primary));
+  box-shadow: var(--shadow-soft);
 }
 
 .statistics__tab-dot {
@@ -689,7 +698,7 @@ function formatLatency(value: number) {
   flex-direction: column;
   justify-content: space-between;
   font-size: 11px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   min-width: 60px;
 }
 
@@ -697,11 +706,12 @@ function formatLatency(value: number) {
   width: 100%;
   height: 220px;
   border-radius: 16px;
-  background: #fff;
+  background: var(--color-bg-surface);
+  transition: background-color 0.3s ease;
 }
 
 .statistics__chart-grid line {
-  stroke: #e0e3e7;
+  stroke: var(--color-border-subtle);
   stroke-width: 0.6;
   stroke-dasharray: 4 4;
 }
@@ -722,7 +732,7 @@ function formatLatency(value: number) {
   margin: 0;
   padding: 0 0 0 60px;
   font-size: 11px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__chart-xaxis li {
@@ -747,20 +757,20 @@ function formatLatency(value: number) {
   justify-content: space-between;
   font-size: 13px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .statistics__status-description {
   margin: 8px 0 0;
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   line-height: 1.4;
 }
 
 .statistics__progress {
   width: 100%;
   height: 8px;
-  background: #f1f3f4;
+  background: var(--color-border-muted);
   border-radius: 999px;
   overflow: hidden;
   margin-top: 10px;
@@ -787,13 +797,13 @@ function formatLatency(value: number) {
   justify-content: space-between;
   font-size: 13px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .statistics__latency-bar {
   width: 100%;
   height: 8px;
-  background: #f1f3f4;
+  background: var(--color-border-muted);
   border-radius: 999px;
   overflow: hidden;
   margin: 10px 0 6px;
@@ -808,13 +818,13 @@ function formatLatency(value: number) {
 .statistics__latency-list p {
   margin: 0;
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .statistics__panel-action {
   border: none;
   background: none;
-  color: #1a73e8;
+  color: var(--color-primary);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -833,15 +843,15 @@ function formatLatency(value: number) {
 .statistics__table thead th {
   text-align: left;
   padding: 12px 24px;
-  background: #f8f9fa;
-  color: #5f6368;
+  background: var(--color-bg-page);
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
 .statistics__table td {
   padding: 16px 24px;
-  border-top: 1px solid #f1f3f4;
-  color: #3c4043;
+  border-top: 1px solid var(--color-border-muted);
+  color: var(--color-text-secondary);
 }
 
 .statistics__table tr:first-of-type td {
@@ -855,7 +865,7 @@ function formatLatency(value: number) {
 
 .statistics__table-empty {
   text-align: center;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 
@@ -864,20 +874,20 @@ function formatLatency(value: number) {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background: #fff;
+  background: var(--color-bg-surface);
   border-radius: 16px;
   padding: 48px 32px;
   text-align: center;
-  color: #5f6368;
-  box-shadow: inset 0 0 0 1px #e0e3e7;
+  color: var(--color-text-secondary);
+  box-shadow: inset 0 0 0 1px var(--color-border-subtle);
 }
 
 .statistics__empty-icon {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #f1f3f4;
-  color: #5f6368;
+  background: var(--color-bg-page);
+  color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -888,7 +898,7 @@ function formatLatency(value: number) {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .statistics__empty p {
@@ -898,7 +908,7 @@ function formatLatency(value: number) {
 }
 
 .statistics__empty a {
-  color: #1a73e8;
+  color: var(--color-primary);
 }
 
 @media (max-width: 1024px) {

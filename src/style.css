@@ -4,8 +4,29 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #202124;
-  background-color: #f8f9fa;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-page);
+  --color-bg-page: #f8f9fa;
+  --color-bg-surface: #ffffff;
+  --color-border-subtle: #e0e3e7;
+  --color-border-muted: #f1f3f4;
+  --color-text-primary: #202124;
+  --color-text-secondary: #5f6368;
+  --color-primary: #1a73e8;
+  --color-primary-hover: #1557b0;
+  --shadow-soft: 0 12px 48px rgba(26, 115, 232, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --color-bg-page: #101823;
+  --color-bg-surface: #162031;
+  --color-border-subtle: #1f2a3d;
+  --color-border-muted: #1c2536;
+  --color-text-primary: #e8eaed;
+  --color-text-secondary: #a1a6b3;
+  --color-primary: #4c8dff;
+  --color-primary-hover: #80a9ff;
+  --shadow-soft: 0 18px 48px rgba(29, 78, 255, 0.22);
 }
 
 * {
@@ -15,7 +36,9 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: #f8f9fa;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -30,4 +53,6 @@ a:hover {
 #app {
   width: 100%;
   min-height: 100vh;
+  background: var(--color-bg-page);
+  transition: background-color 0.3s ease;
 }
