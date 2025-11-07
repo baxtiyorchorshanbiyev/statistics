@@ -7,31 +7,30 @@ export interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Обзор' },
-  { label: 'Статистика', badge: 'Новый', active: true },
-  { label: 'Эффективность' },
-  { label: 'Проверка URL' },
-  { label: 'Индексирование', children: [{ label: 'Страницы' }, { label: 'Файлы Sitemap' }, { label: 'Удаления' }] },
-  { label: 'Качество', children: [{ label: 'Core Web Vitals' }, { label: 'HTTPS' }] },
-  { label: 'Улучшения' },
-  { label: 'Мероприятия' },
-  { label: 'Проблемы безопасности и меры, принятые вручную' },
-  { label: 'Ссылки' },
-  { label: 'Достижения' },
-  { label: 'Настройки' }
+  { label: 'Statistika', active: true },
+  { label: 'API monitoringi', badge: 'Yangi' },
+  { label: 'Javob vaqtlari' },
+  { label: 'Xatoliklarni kuzatuv' },
+  {
+    label: 'Integratsiyalar',
+    children: [{ label: 'Gateway sozlamalari' }, { label: 'Webhooklar' }, { label: 'Partner API lar' }]
+  },
+  { label: 'Resurslar', children: [{ label: 'Hujjatlar' }, { label: 'Foydalanish qo‘llanmalari' }] },
+  { label: 'Sozlamalar' }
 ]
 </script>
 
 <template>
   <aside class="sidebar">
     <div class="sidebar__header">
-      <div class="sidebar__product">Google Search Console</div>
-      <div class="sidebar__workspace">https://newrenessans.uz/</div>
+      <div class="sidebar__product">Osonkassa Monitoring</div>
+      <div class="sidebar__workspace">osonkassa</div>
     </div>
     <nav class="sidebar__nav">
       <ul>
         <li v-for="item in navItems" :key="item.label">
-          <button :class="['sidebar__link', { 'sidebar__link--active': item.active }]"><span>{{ item.label }}</span>
+          <button :class="['sidebar__link', { 'sidebar__link--active': item.active }]">
+            <span>{{ item.label }}</span>
             <span v-if="item.badge" class="sidebar__badge">{{ item.badge }}</span>
           </button>
           <ul v-if="item.children" class="sidebar__child-list">
@@ -45,13 +44,13 @@ const navItems: NavItem[] = [
       </ul>
     </nav>
     <div class="sidebar__footer">
-      <button class="sidebar__feedback">Отправить отзыв</button>
+      <button class="sidebar__feedback">Fikr bildirish</button>
       <div class="sidebar__legal">
-        <a href="#">Общие сведения о Search Console</a>
+        <a href="#">Yordam markazi</a>
         <div>
-          <a href="#">Конфиденциальность</a>
+          <a href="#">Maxfiylik</a>
           <span> · </span>
-          <a href="#">Условия использования</a>
+          <a href="#">Foydalanish shartlari</a>
         </div>
       </div>
     </div>
