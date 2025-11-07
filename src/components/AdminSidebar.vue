@@ -62,28 +62,31 @@ const navItems: NavItem[] = [
   width: 260px;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border-right: 1px solid #e0e3e7;
+  background: var(--color-bg-surface);
+  border-right: 1px solid var(--color-border-subtle);
   height: 100vh;
   position: sticky;
   top: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .sidebar__header {
   padding: 24px 24px 16px;
-  border-bottom: 1px solid #f1f3f4;
+  border-bottom: 1px solid var(--color-border-muted);
 }
 
 .sidebar__product {
   font-size: 14px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .sidebar__workspace {
   font-size: 16px;
   font-weight: 600;
-  color: #202124;
+  color: var(--color-text-primary);
 }
 
 .sidebar__nav {
@@ -106,23 +109,24 @@ const navItems: NavItem[] = [
   background: none;
   padding: 10px 24px;
   font-size: 14px;
-  color: #202124;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   border-radius: 0 24px 24px 0;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .sidebar__link:hover,
 .sidebar__sublink:hover {
-  background: #f1f3f4;
+  background: rgba(26, 115, 232, 0.08);
+  color: var(--color-primary);
 }
 
 .sidebar__link--active {
-  background: #e8f0fe;
-  color: #185abc;
+  background: rgba(26, 115, 232, 0.15);
+  color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -134,11 +138,11 @@ const navItems: NavItem[] = [
 .sidebar__child-list .sidebar__sublink {
   padding-left: 40px;
   font-size: 13px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .sidebar__badge {
-  background: #1a73e8;
+  background: var(--color-primary);
   color: #fff;
   font-size: 11px;
   padding: 2px 8px;
@@ -149,15 +153,15 @@ const navItems: NavItem[] = [
 
 .sidebar__footer {
   padding: 16px 24px 24px;
-  border-top: 1px solid #f1f3f4;
+  border-top: 1px solid var(--color-border-muted);
   font-size: 12px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
 }
 
 .sidebar__feedback {
   border: none;
   background: none;
-  color: #1a73e8;
+  color: var(--color-primary);
   font-size: 12px;
   cursor: pointer;
   margin-bottom: 12px;
