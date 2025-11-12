@@ -64,6 +64,15 @@ const userProfile = {
   email: 'baxtiyor9730@gmail.com'
 }
 
+const loginForm = ref({
+  email: 'baxtiyor9730@gmail.com',
+  password: '',
+  remember: true
+})
+
+const isLoginModalVisible = ref(false)
+const isLogoutModalVisible = ref(false)
+
 const unreadCount = computed(() => notifications.value.filter((item) => !item.read).length)
 const userInitials = computed(() =>
   userProfile.name
@@ -100,6 +109,40 @@ const handleNotificationVisibleChange = (visible: boolean) => {
 
 function toggleSidebar() {
   emit('update:sidebarCollapsed', !props.sidebarCollapsed)
+}
+
+function openLoginModal() {
+  isLoginModalVisible.value = true
+}
+
+function closeLoginModal() {
+  isLoginModalVisible.value = false
+}
+
+function submitLogin() {
+  // Bu demo ilova, shu sababli faqat modalni yopamiz
+  setTimeout(() => {
+    closeLoginModal()
+  }, 160)
+}
+
+function openLogoutModal() {
+  isLogoutModalVisible.value = true
+}
+
+function closeLogoutModal() {
+  isLogoutModalVisible.value = false
+}
+
+function confirmLogout() {
+  // Demo rejim: faqat modalni yopamiz
+  closeLogoutModal()
+}
+
+function handleMenuClick({ key }: { key: string }) {
+  if (key === 'logout') {
+    openLogoutModal()
+  }
 }
 </script>
 
@@ -191,6 +234,16 @@ function toggleSidebar() {
           </a-badge>
         </a-popover>
 
+          <a-button
+            class="main-header__login-button"
+            type="default"
+            ghost
+            size="middle"
+            @click="openLoginModal"
+          >
+            Kirish
+          </a-button>
+
         <a-dropdown placement="bottomRight" trigger="click">
           <a-space class="main-header__profile" size="small">
             <a-avatar class="main-header__avatar" size="large">
@@ -204,8 +257,8 @@ function toggleSidebar() {
             </div>
             <DownOutlined class="main-header__caret" />
           </a-space>
-          <template #overlay>
-            <a-menu selectable>
+            <template #overlay>
+              <a-menu selectable @click="handleMenuClick">
               <a-menu-item key="profile">
                 <UserOutlined />
                 <span>Profilni ko'rish</span>
@@ -225,6 +278,54 @@ function toggleSidebar() {
       </a-space>
     </div>
   </header>
+
+    <a-modal
+      v-model:open="isLoginModalVisible"
+      title="Profilga kirish"
+      centered
+      :footer="null"
+      class="main-header__modal"
+      @cancel="closeLoginModal"
+    >
+      <a-form layout="vertical" @submit.prevent="submitLogin">
+        <a-form-item label="Email">
+          <a-input
+            v-model:value="loginForm.email"
+            size="large"
+            type="email"
+            placeholder="foydalanuvchi@kompaniya.uz"
+          />
+        </a-form-item>
+        <a-form-item label="Parol">
+          <a-input-password
+            v-model:value="loginForm.password"
+            size="large"
+            placeholder="••••••••"
+          />
+        </a-form-item>
+        <div class="main-header__modal-footer">
+          <a-checkbox v-model:checked="loginForm.remember">Meni eslab qol</a-checkbox>
+          <a-space>
+            <a-button @click="closeLoginModal">Bekor qilish</a-button>
+            <a-button type="primary" html-type="submit">Kirish</a-button>
+          </a-space>
+        </div>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="isLogoutModalVisible"
+      title="Chiqishni tasdiqlang"
+      centered
+      ok-text="Chiqish"
+      cancel-text="Bekor qilish"
+      :ok-button-props="{ danger: true }"
+      class="main-header__modal"
+      @ok="confirmLogout"
+      @cancel="closeLogoutModal"
+    >
+      <p>Haqiqatan ham tizimdan chiqmoqchimisiz? Jarayonlar to‘xtatilmaydi, lekin qayta kirish talab qilinadi.</p>
+    </a-modal>
 </template>
 
 <style scoped>
@@ -233,20 +334,17 @@ function toggleSidebar() {
   justify-content: space-between;
   align-items: center;
   padding: 12px 32px;
-  background: #ffffff;
-  border-bottom: 1px solid #e8eaed;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  background: var(--color-bg-surface-elevated);
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background-color var(--transition-base), border-color var(--transition-base);
   height: 64px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 90;
-}
-
-[data-theme="dark"] .main-header {
-  background: #202124;
-  border-bottom-color: #3c4043;
+  backdrop-filter: blur(22px);
+  box-shadow: 0 14px 40px rgba(6, 12, 28, 0.28);
 }
 
 .main-header__left {
@@ -258,29 +356,22 @@ function toggleSidebar() {
   width: 40px;
   height: 40px;
   border: none;
-  background: transparent;
-  border-radius: 8px;
+  background: rgba(76, 141, 255, 0.1);
+  border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  color: #5f6368;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-[data-theme="dark"] .main-header__toggle {
-  color: #9aa0a6;
+  color: var(--color-text-secondary);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  box-shadow: inset 0 0 0 1px rgba(124, 169, 255, 0.12);
 }
 
 .main-header__toggle:hover {
-  background: #e8f0fe;
-  color: #1a73e8;
-}
-
-[data-theme="dark"] .main-header__toggle:hover {
-  background: rgba(138, 180, 248, 0.12);
-  color: #8ab4f8;
+  background: rgba(76, 141, 255, 0.2);
+  color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 .main-header__right {
@@ -291,11 +382,7 @@ function toggleSidebar() {
 .main-header__divider {
   width: 1px;
   height: 28px;
-  background: #e8eaed;
-}
-
-[data-theme="dark"] .main-header__divider {
-  background: #3c4043;
+  background: var(--color-border-subtle);
 }
 
 .main-header__segmented {
@@ -335,63 +422,66 @@ function toggleSidebar() {
 
 .main-header__icon {
   font-size: 16px;
-  color: #5f6368;
-}
-
-[data-theme="dark"] .main-header__icon {
-  color: #9aa0a6;
+  color: var(--color-text-secondary);
 }
 
 .main-header__icon-button {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  border: 1px solid #dadce0;
-  background: transparent;
-  color: #5f6368;
+  border: 1px solid rgba(124, 169, 255, 0.16);
+  background: rgba(14, 24, 46, 0.8);
+  color: var(--color-text-secondary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-[data-theme="dark"] .main-header__icon-button {
-  border-color: #5f6368;
-  color: #9aa0a6;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  backdrop-filter: blur(12px);
 }
 
 .main-header__icon-button:hover {
-  background: #e8f0fe;
-  border-color: #1a73e8;
-  color: #1a73e8;
+  background: rgba(76, 141, 255, 0.18);
+  border-color: rgba(124, 169, 255, 0.38);
+  color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
-[data-theme="dark"] .main-header__icon-button:hover {
-  background: rgba(138, 180, 248, 0.12);
-  border-color: #8ab4f8;
-  color: #8ab4f8;
+.main-header__login-button {
+  border-color: rgba(124, 169, 255, 0.28);
+  color: var(--color-primary);
+  background: rgba(14, 24, 46, 0.6);
+  padding: 0 18px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.main-header__login-button:hover {
+  border-color: rgba(124, 169, 255, 0.5);
+  background: rgba(76, 141, 255, 0.2);
+  color: var(--color-primary-hover);
+  transform: translateY(-1px);
 }
 
 .main-header__profile {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  padding: 4px 12px;
-  border-radius: 16px;
-  border: 1px solid transparent;
+  padding: 6px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(124, 169, 255, 0.12);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  background: rgba(14, 24, 46, 0.72);
 }
 
 .main-header__profile:hover {
-  background: #e8f0fe;
-  border-color: #dadce0;
-}
-
-[data-theme="dark"] .main-header__profile:hover {
-  background: rgba(138, 180, 248, 0.12);
-  border-color: #5f6368;
+  background: rgba(76, 141, 255, 0.18);
+  border-color: rgba(124, 169, 255, 0.32);
+  transform: translateY(-1px);
 }
 
 .main-header__avatar {
@@ -413,29 +503,18 @@ function toggleSidebar() {
 .main-header__name {
   font-size: 13px;
   font-weight: 600;
-  color: #202124;
-}
-
-[data-theme="dark"] .main-header__name {
-  color: #e8eaed;
+  color: var(--color-text-primary);
 }
 
 .main-header__email {
   font-size: 12px;
-  color: #5f6368;
-}
-
-[data-theme="dark"] .main-header__email {
-  color: #9aa0a6;
+  color: var(--color-text-secondary);
+  opacity: 0.8;
 }
 
 .main-header__caret {
-  color: #5f6368;
+  color: var(--color-text-secondary);
   font-size: 10px;
-}
-
-[data-theme="dark"] .main-header__caret {
-  color: #9aa0a6;
 }
 
 .main-header__notifications {
@@ -451,11 +530,7 @@ function toggleSidebar() {
   justify-content: space-between;
   font-size: 14px;
   font-weight: 600;
-  color: #202124;
-}
-
-[data-theme="dark"] .main-header__notifications-head {
-  color: #e8eaed;
+  color: var(--color-text-primary);
 }
 
 .main-header__notifications-list {
@@ -468,64 +543,69 @@ function toggleSidebar() {
   display: grid;
   gap: 6px;
   padding: 12px;
-  border-radius: 12px;
-  background: #f8f9fa;
-  border: 1px solid transparent;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-[data-theme="dark"] .main-header__notification-item {
-  background: #292a2d;
+  border-radius: 14px;
+  background: rgba(14, 24, 46, 0.85);
+  border: 1px solid rgba(124, 169, 255, 0.12);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .main-header__notification-item--unread {
-  border-color: rgba(26, 115, 232, 0.3);
-  background: #e8f0fe;
-}
-
-[data-theme="dark"] .main-header__notification-item--unread {
-  border-color: rgba(138, 180, 248, 0.3);
-  background: rgba(138, 180, 248, 0.12);
+  border-color: rgba(76, 141, 255, 0.4);
+  background: rgba(76, 141, 255, 0.16);
 }
 
 .main-header__notification-title {
   font-size: 13px;
   font-weight: 600;
-  color: #202124;
-}
-
-[data-theme="dark"] .main-header__notification-title {
-  color: #e8eaed;
+  color: var(--color-text-primary);
 }
 
 .main-header__notification-body {
   font-size: 12px;
-  color: #5f6368;
-}
-
-[data-theme="dark"] .main-header__notification-body {
-  color: #9aa0a6;
+  color: var(--color-text-secondary);
 }
 
 .main-header__notification-time {
   font-size: 11px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   opacity: 0.7;
-}
-
-[data-theme="dark"] .main-header__notification-time {
-  color: #9aa0a6;
 }
 
 .main-header__notification-empty {
   text-align: center;
   font-size: 13px;
-  color: #5f6368;
+  color: var(--color-text-secondary);
   padding: 16px 0;
 }
 
-[data-theme="dark"] .main-header__notification-empty {
-  color: #9aa0a6;
+.main-header__modal-footer {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:deep(.main-header__modal .ant-modal-content) {
+  background: var(--color-bg-surface);
+  border: 1px solid rgba(124, 169, 255, 0.18);
+  box-shadow: var(--shadow-glow);
+}
+
+:deep(.main-header__modal .ant-modal-header) {
+  background: transparent;
+  border-bottom: 1px solid rgba(124, 169, 255, 0.18);
+}
+
+:deep(.main-header__modal .ant-modal-title) {
+  color: var(--color-text-primary);
+}
+
+:deep(.main-header__modal .ant-modal-body) {
+  color: var(--color-text-secondary);
+}
+
+:deep(.main-header__modal .ant-form-item-label > label) {
+  color: var(--color-text-secondary);
 }
 
 @media (max-width: 768px) {

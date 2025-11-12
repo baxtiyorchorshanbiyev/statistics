@@ -13,10 +13,13 @@ const { defaultAlgorithm, darkAlgorithm } = antdTheme;
 
 const getStoredThemeMode = (): ThemeMode => {
   if (typeof window === "undefined") {
-    return "light";
+    return "dark";
   }
   const stored = window.localStorage.getItem("dashboard-theme-mode");
-  return stored === "dark" ? "dark" : "light";
+  if (stored === "light" || stored === "dark") {
+    return stored;
+  }
+  return "dark";
 };
 
 const getStoredLocale = (): LocaleCode => {
@@ -78,7 +81,7 @@ watch(sidebarCollapsed, (collapsed) => {
 
 <template>
   <a-config-provider :locale="currentLocale" :theme="themeConfig">
-    <div class="app-shell">
+    <div class="app-shell" :class="{ 'app-shell--sidebar-collapsed': sidebarCollapsed }">
       <AdminSidebar :collapsed="sidebarCollapsed" />
       <div class="app-shell__main">
         <MainHeader
@@ -97,27 +100,23 @@ watch(sidebarCollapsed, (collapsed) => {
 <style scoped>
 .app-shell {
   min-height: 100vh;
-  background: #f8f9fa;
-  color: #202124;
+  background: var(--color-bg-page-gradient);
+  color: var(--color-text-primary);
   font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-[data-theme="dark"] .app-shell {
-  background: #202124;
-  color: #e8eaed;
 }
 
 .app-shell__main {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  margin-left: 260px;
+  margin-left: var(--sidebar-width, 260px);
   transition: margin-left 0.3s ease, background-color 0.3s ease;
+  background: var(--color-bg-page-gradient);
 }
 
-.app-shell:has(.sidebar--collapsed) .app-shell__main {
-  margin-left: 80px;
+.app-shell--sidebar-collapsed .app-shell__main {
+  margin-left: var(--sidebar-width-collapsed, 80px);
 }
 
 .router-view-container {
@@ -125,11 +124,8 @@ watch(sidebarCollapsed, (collapsed) => {
   overflow-y: auto;
   flex: 1;
   min-height: calc(100vh - 64px);
-  background: #f8f9fa;
-}
-
-[data-theme="dark"] .router-view-container {
-  background: #202124;
+  background: var(--color-bg-page-gradient);
+  transition: background-color 0.3s ease;
 }
 
 @media (max-width: 920px) {
