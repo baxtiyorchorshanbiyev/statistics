@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   BellOutlined,
   DownOutlined,
   GlobalOutlined,
   LogoutOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   SettingOutlined,
   UserOutlined
 } from '@ant-design/icons-vue'
@@ -17,17 +16,14 @@ type LocaleCode = 'ru' | 'en'
 const props = withDefaults(defineProps<{
   themeMode: ThemeMode
   locale: LocaleCode
-  sidebarCollapsed: boolean
 }>(), {
   themeMode: 'light',
-  locale: 'ru',
-  sidebarCollapsed: false
+  locale: 'ru'
 })
 
 const emit = defineEmits<{
   (event: 'update:themeMode', value: ThemeMode): void
   (event: 'update:locale', value: LocaleCode): void
-  (event: 'update:sidebarCollapsed', value: boolean): void
 }>()
 
 const notifications = ref([
@@ -107,10 +103,6 @@ const handleNotificationVisibleChange = (visible: boolean) => {
   }
 }
 
-function toggleSidebar() {
-  emit('update:sidebarCollapsed', !props.sidebarCollapsed)
-}
-
 function openLoginModal() {
   isLoginModalVisible.value = true
 }
@@ -144,15 +136,18 @@ function handleMenuClick({ key }: { key: string }) {
     openLogoutModal()
   }
 }
+
+const route = useRoute()
+const pageTitle = computed(() => {
+  const metaTitle = route.meta?.title
+  return typeof metaTitle === 'string' && metaTitle.trim().length ? metaTitle : 'Monitoring'
+})
 </script>
 
 <template>
   <header class="main-header">
     <div class="main-header__left">
-      <button class="main-header__toggle" @click="toggleSidebar">
-        <MenuUnfoldOutlined v-if="sidebarCollapsed" />
-        <MenuFoldOutlined v-else />
-      </button>
+      <span class="main-header__title">{{ pageTitle }}</span>
     </div>
 
     <div class="main-header__right">
@@ -352,26 +347,11 @@ function handleMenuClick({ key }: { key: string }) {
   align-items: center;
 }
 
-.main-header__toggle {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: rgba(76, 141, 255, 0.1);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.main-header__title {
   font-size: 18px;
-  color: var(--color-text-secondary);
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-  box-shadow: inset 0 0 0 1px rgba(124, 169, 255, 0.12);
-}
-
-.main-header__toggle:hover {
-  background: rgba(76, 141, 255, 0.2);
-  color: var(--color-primary);
-  transform: translateY(-1px);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .main-header__right {
@@ -611,6 +591,10 @@ function handleMenuClick({ key }: { key: string }) {
 @media (max-width: 768px) {
   .main-header {
     padding: 12px 16px;
+  }
+
+  .main-header__title {
+    font-size: 16px;
   }
 
   .main-header__profile {
