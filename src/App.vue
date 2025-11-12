@@ -82,12 +82,11 @@ watch(sidebarCollapsed, (collapsed) => {
 <template>
   <a-config-provider :locale="currentLocale" :theme="themeConfig">
     <div class="app-shell" :class="{ 'app-shell--sidebar-collapsed': sidebarCollapsed }">
-      <AdminSidebar :collapsed="sidebarCollapsed" />
+        <AdminSidebar v-model:collapsed="sidebarCollapsed" />
       <div class="app-shell__main">
         <MainHeader
           v-model:theme-mode="themeMode"
           v-model:locale="localeCode"
-          v-model:sidebar-collapsed="sidebarCollapsed"
         />
         <div class="router-view-container">
           <router-view />
@@ -98,35 +97,35 @@ watch(sidebarCollapsed, (collapsed) => {
 </template>
 
 <style scoped>
-.app-shell {
-  min-height: 100vh;
-  background: var(--color-bg-page-gradient);
-  color: var(--color-text-primary);
-  font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  .app-shell {
+    min-height: 100vh;
+    background: var(--color-bg-content);
+    color: var(--color-text-primary);
+    font-family: "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 
-.app-shell__main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin-left: var(--sidebar-width, 260px);
-  transition: margin-left 0.3s ease, background-color 0.3s ease;
-  background: var(--color-bg-page-gradient);
-}
+  .app-shell__main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-left: var(--sidebar-width, 260px);
+    transition: margin-left 0.3s ease, background-color 0.3s ease;
+    background: var(--color-bg-content);
+  }
 
 .app-shell--sidebar-collapsed .app-shell__main {
   margin-left: var(--sidebar-width-collapsed, 80px);
 }
 
-.router-view-container {
-  padding-top: 64px;
-  overflow-y: auto;
-  flex: 1;
-  min-height: calc(100vh - 64px);
-  background: var(--color-bg-page-gradient);
-  transition: background-color 0.3s ease;
-}
+  .router-view-container {
+    padding-top: 64px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: calc(100vh - 64px);
+    background: var(--color-bg-content);
+    transition: background-color 0.3s ease;
+  }
 
 @media (max-width: 920px) {
   .app-shell__main {
