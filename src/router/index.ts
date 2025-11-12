@@ -25,6 +25,12 @@ const routes: RouteRecordRaw[] = [
     name: 'ErrorTracking',
     component: () => import('../views/ErrorTrackingView.vue'),
     meta: { title: 'Xatoliklarni kuzatuv' }
+  },
+  {
+    path: '/menu-analytics',
+    name: 'MenuAnalytics',
+    component: () => import('../views/MenuUsageInsightsView.vue'),
+    meta: { title: 'Menyu analitikasi' }
   }
 ]
 

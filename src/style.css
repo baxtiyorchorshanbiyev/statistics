@@ -6,27 +6,53 @@
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text-primary);
   background-color: var(--color-bg-page);
-  --color-bg-page: #f8f9fa;
-  --color-bg-surface: #ffffff;
-  --color-border-subtle: #e0e3e7;
-  --color-border-muted: #f1f3f4;
-  --color-text-primary: #202124;
-  --color-text-secondary: #5f6368;
-  --color-primary: #1a73e8;
-  --color-primary-hover: #1557b0;
-  --shadow-soft: 0 12px 48px rgba(26, 115, 232, 0.08);
+  --sidebar-width: 264px;
+  --sidebar-width-collapsed: 84px;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --transition-base: 0.3s ease;
+  --control-height: 44px;
+  --control-padding-x: 16px;
+  --control-padding-y: 10px;
+  --focus-ring: 0 0 0 2px rgba(76, 141, 255, 0.28);
+
+  /* Dark (default) */
+  --color-bg-page: #091325;
+  --color-bg-page-gradient: radial-gradient(circle at 0% -20%, rgba(54, 83, 204, 0.45), transparent 55%), radial-gradient(circle at 100% 0%, rgba(20, 115, 230, 0.32), transparent 45%), #091325;
+  --color-bg-surface: rgba(14, 24, 46, 0.85);
+  --color-bg-surface-elevated: rgba(20, 32, 60, 0.92);
+  --color-bg-sidebar: rgba(9, 19, 37, 0.95);
+  --color-border-subtle: rgba(58, 83, 139, 0.35);
+  --color-border-muted: rgba(35, 52, 87, 0.55);
+  --color-text-primary: #f3f5ff;
+  --color-text-secondary: #9cadde;
+  --color-primary: #4c8dff;
+  --color-primary-hover: #7ca9ff;
+  --color-success: #4ad991;
+  --color-warning: #ffd166;
+  --color-danger: #ff6b81;
+  --shadow-soft: 0 22px 40px rgba(5, 12, 28, 0.55);
+  --shadow-glow: 0 0 0 1px rgba(124, 169, 255, 0.12), 0 18px 32px rgba(13, 37, 92, 0.42);
 }
 
-:root[data-theme='dark'] {
-  --color-bg-page: #101823;
-  --color-bg-surface: #162031;
-  --color-border-subtle: #1f2a3d;
-  --color-border-muted: #1c2536;
-  --color-text-primary: #e8eaed;
-  --color-text-secondary: #a1a6b3;
-  --color-primary: #4c8dff;
-  --color-primary-hover: #80a9ff;
-  --shadow-soft: 0 18px 48px rgba(29, 78, 255, 0.22);
+:root[data-theme='light'] {
+  --color-bg-page: #f6f8fc;
+  --color-bg-page-gradient: radial-gradient(circle at 0% -20%, rgba(26, 115, 232, 0.12), transparent 60%), radial-gradient(circle at 110% -10%, rgba(18, 181, 203, 0.08), transparent 50%), #f6f8fc;
+  --color-bg-surface: #ffffff;
+  --color-bg-surface-elevated: #ffffff;
+  --color-bg-sidebar: #ffffff;
+  --color-border-subtle: #dbe2f1;
+  --color-border-muted: #e6ecf8;
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #5f6c86;
+  --color-primary: #1a73e8;
+  --color-primary-hover: #1557b0;
+  --color-success: #09825d;
+  --color-warning: #c27c0e;
+  --color-danger: #c62828;
+  --shadow-soft: 0 16px 40px rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(26, 115, 232, 0.12), 0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -36,9 +62,9 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--color-bg-page);
+  background: var(--color-bg-page-gradient);
   color: var(--color-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background var(--transition-base), color var(--transition-base);
 }
 
 a {
@@ -53,6 +79,53 @@ a:hover {
 #app {
   width: 100%;
   min-height: 100vh;
-  background: var(--color-bg-page);
-  transition: background-color 0.3s ease;
+  background: transparent;
+  transition: background var(--transition-base);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  border: none;
+  padding: var(--control-padding-y) var(--control-padding-x);
+  background: rgba(124, 169, 255, 0.12);
+  color: var(--color-primary);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: rgba(124, 169, 255, 0.2);
+  color: var(--color-primary-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+input,
+select,
+textarea {
+  background: var(--color-bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+  padding: var(--control-padding-y) var(--control-padding-x);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
 }
