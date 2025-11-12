@@ -458,7 +458,7 @@ function formatLatency(value: number) {
   background: var(--color-bg-page);
   color: var(--color-text-primary);
   min-height: calc(100vh - 64px);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 .statistics__banner {
@@ -507,7 +507,7 @@ function formatLatency(value: number) {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .statistics__card-top {
@@ -576,7 +576,7 @@ function formatLatency(value: number) {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .statistics__panel--wide {
@@ -707,7 +707,7 @@ function formatLatency(value: number) {
   height: 220px;
   border-radius: 16px;
   background: var(--color-bg-surface);
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-base);
 }
 
 .statistics__chart-grid line {

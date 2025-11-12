@@ -329,7 +329,7 @@ const pageTitle = computed(() => {
   justify-content: space-between;
   align-items: center;
   padding: 12px 32px;
-  background: var(--color-bg-surface-elevated);
+  background: linear-gradient(135deg, rgba(16, 30, 58, 0.96) 0%, rgba(7, 17, 33, 0.96) 100%);
   border-bottom: 1px solid var(--color-border-subtle);
   transition: background-color var(--transition-base), border-color var(--transition-base);
   height: 64px;
@@ -416,7 +416,7 @@ const pageTitle = computed(() => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
   backdrop-filter: blur(12px);
 }
 
@@ -424,7 +424,6 @@ const pageTitle = computed(() => {
   background: rgba(76, 141, 255, 0.18);
   border-color: rgba(124, 169, 255, 0.38);
   color: var(--color-primary);
-  transform: translateY(-1px);
 }
 
 .main-header__login-button {
@@ -436,14 +435,13 @@ const pageTitle = computed(() => {
   display: inline-flex;
   align-items: center;
   border-radius: 999px;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: border-color var(--transition-base), background-color var(--transition-base), color var(--transition-base);
 }
 
 .main-header__login-button:hover {
   border-color: rgba(124, 169, 255, 0.5);
   background: rgba(76, 141, 255, 0.2);
   color: var(--color-primary-hover);
-  transform: translateY(-1px);
 }
 
 .main-header__profile {
@@ -454,14 +452,13 @@ const pageTitle = computed(() => {
   border-radius: 18px;
   border: 1px solid rgba(124, 169, 255, 0.12);
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background-color var(--transition-base), border-color var(--transition-base);
   background: rgba(14, 24, 46, 0.72);
 }
 
 .main-header__profile:hover {
   background: rgba(76, 141, 255, 0.18);
   border-color: rgba(124, 169, 255, 0.32);
-  transform: translateY(-1px);
 }
 
 .main-header__avatar {
